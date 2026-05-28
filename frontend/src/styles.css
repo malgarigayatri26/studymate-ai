@@ -191,6 +191,20 @@ button:disabled {
   padding-left: 20px;
 }
 
+.extracted-text {
+  background: #f7f9fc;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  color: #2d3b45;
+  font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.7;
+  margin: 0;
+  max-height: 320px;
+  overflow: auto;
+  padding: 16px;
+  white-space: pre-wrap;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

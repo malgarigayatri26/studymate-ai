@@ -86,6 +86,11 @@ function App() {
       {result && (
         <section className="results">
           <div>
+            <p className="section-label">Extracted Text</p>
+            <pre className="extracted-text">{result.extracted_text}</pre>
+          </div>
+
+          <div>
             <p className="section-label">Summary</p>
             <p>{result.summary}</p>
           </div>
