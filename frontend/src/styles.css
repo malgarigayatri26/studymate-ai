@@ -196,6 +196,17 @@ button:disabled {
   padding-left: 20px;
 }
 
+.generator-pill {
+  background: #eaf7ff;
+  border: 1px solid #b8dfff;
+  border-radius: 999px;
+  color: #155a83;
+  font-size: 13px;
+  font-weight: 900;
+  justify-self: start;
+  padding: 8px 12px;
+}
+
 .extracted-text {
   background: #f7f9fc;
   border: 1px solid #dde3ea;

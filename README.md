@@ -12,6 +12,8 @@ In the final version, a student can upload a PDF, audio, or video lecture and ge
 - A revision plan
 - Knowledge gap detection based on quiz mistakes
 
+The app uses Gemini AI when `GEMINI_API_KEY` is configured. If no key is available, it uses a simple offline generator so the project still works.
+
 ## Project Parts
 
 This project has two main folders:

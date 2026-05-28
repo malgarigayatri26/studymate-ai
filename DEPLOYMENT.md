@@ -25,6 +25,13 @@ Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 FRONTEND_URL=https://your-vercel-url.vercel.app
 ```
 
+To enable real AI generation, also add:
+
+```text
+GEMINI_API_KEY=your-gemini-api-key
+GEMINI_MODEL=gemini-2.0-flash
+```
+
 Render will give you a backend URL like:
 
 ```text
@@ -87,3 +94,5 @@ After Vercel gives the final frontend URL, update the Render environment variabl
 ```text
 FRONTEND_URL=https://your-final-domain.com
 ```
+
+Never commit `GEMINI_API_KEY` to GitHub. Add it only inside Render environment variables.

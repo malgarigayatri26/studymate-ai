@@ -4,6 +4,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from app.ai_generator import can_use_gemini, generate_ai_study_material
 from app.pdf_reader import extract_pdf_text
 from app.study_generator import generate_study_material
 
@@ -49,11 +50,22 @@ async def upload_lecture(file: UploadFile = File(...)):
             "Scanned image PDFs need OCR, which we will add later."
         )
 
-    study_material = generate_study_material(extracted_text)
+    generator = "offline"
+
+    if can_use_gemini():
+        try:
+            study_material = generate_ai_study_material(extracted_text)
+            generator = "gemini"
+        except Exception:
+            study_material = generate_study_material(extracted_text)
+            generator = "offline_fallback"
+    else:
+        study_material = generate_study_material(extracted_text)
 
     return {
         "file_name": file.filename,
         "content_type": file.content_type,
+        "generator": generator,
         "extracted_text": extracted_text,
         "notes": study_material["key_points"],
         "summary": study_material["summary"],

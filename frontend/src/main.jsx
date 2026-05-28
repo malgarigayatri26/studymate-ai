@@ -135,6 +135,10 @@ function App() {
 
       {result && (
         <section className="results">
+          <div className="generator-pill">
+            Generator: {result.generator === "gemini" ? "Gemini AI" : "Offline fallback"}
+          </div>
+
           <div>
             <p className="section-label">Extracted Text</p>
             <pre className="extracted-text">{result.extracted_text}</pre>

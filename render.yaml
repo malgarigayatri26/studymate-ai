@@ -8,3 +8,5 @@ services:
     envVars:
       - key: FRONTEND_URL
         value: https://your-vercel-frontend-url.vercel.app
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
