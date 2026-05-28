@@ -1,18 +1,33 @@
+import os
+
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from app.pdf_reader import extract_pdf_text
 from app.study_generator import generate_study_material
 
 app = FastAPI(title="StudyMate AI API")
 
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[frontend_url, "http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+class QuizAnswer(BaseModel):
+    question: str
+    topic: str
+    answer: str
+
+
+class QuizAssessmentRequest(BaseModel):
+    answers: list[QuizAnswer]
 
 
 @app.get("/")
@@ -46,4 +61,40 @@ async def upload_lecture(file: UploadFile = File(...)):
         "flashcards": study_material["flashcards"],
         "quiz": study_material["quiz"],
         "revision_plan": study_material["revision_plan"],
+    }
+
+
+@app.post("/api/quiz/assess")
+def assess_quiz(request: QuizAssessmentRequest):
+    weak_topics = []
+    strong_topics = []
+
+    for answer in request.answers:
+        cleaned_answer = answer.answer.strip()
+
+        if len(cleaned_answer.split()) < 8:
+            weak_topics.append(answer.topic)
+        else:
+            strong_topics.append(answer.topic)
+
+    if not weak_topics:
+        weak_topics = ["revision"]
+
+    personal_plan = [
+        f"Revise {topic} with one short definition and one example."
+        for topic in weak_topics
+    ]
+    personal_plan.extend(
+        [
+            "Create one handwritten note for each weak topic.",
+            "Try the same quiz again after revising.",
+            "Review strong topics once after 2 days so you do not forget them.",
+        ]
+    )
+
+    return {
+        "weak_topics": weak_topics,
+        "strong_topics": strong_topics,
+        "personal_plan": personal_plan,
+        "message": "Knowledge gaps detected from your quiz answers.",
     }

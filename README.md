@@ -84,3 +84,11 @@ Upload a lecture file and show a sample generated notes response.
 ```
 
 After that works, we will add real PDF text extraction and AI.
+
+## Deployment
+
+Deployment steps are in:
+
+```text
+DEPLOYMENT.md
+```

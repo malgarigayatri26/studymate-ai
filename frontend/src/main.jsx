@@ -3,10 +3,15 @@ import { createRoot } from "react-dom/client";
 import { BookOpen, FileUp, Loader2, Sparkles } from "lucide-react";
 import "./styles.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function App() {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [assessment, setAssessment] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isAssessing, setIsAssessing] = useState(false);
   const [error, setError] = useState("");
 
   async function handleUpload(event) {
@@ -20,12 +25,14 @@ function App() {
     setIsUploading(true);
     setError("");
     setResult(null);
+    setQuizAnswers({});
+    setAssessment(null);
 
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/lectures/upload", {
+      const response = await fetch(`${API_URL}/api/lectures/upload`, {
         method: "POST",
         body: formData,
       });
@@ -40,6 +47,49 @@ function App() {
       setError("Backend is not reachable. Start the backend server first.");
     } finally {
       setIsUploading(false);
+    }
+  }
+
+  function handleQuizAnswer(question, answer) {
+    setQuizAnswers((currentAnswers) => ({
+      ...currentAnswers,
+      [question]: answer,
+    }));
+  }
+
+  async function assessQuiz() {
+    if (!result?.quiz?.length) {
+      return;
+    }
+
+    setIsAssessing(true);
+    setError("");
+
+    const answers = result.quiz.map((item) => ({
+      question: item.question,
+      topic: item.topic,
+      answer: quizAnswers[item.question] || "",
+    }));
+
+    try {
+      const response = await fetch(`${API_URL}/api/quiz/assess`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ answers }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Assessment failed.");
+      }
+
+      const data = await response.json();
+      setAssessment(data);
+    } catch (assessmentError) {
+      setError("Quiz assessment failed. Check that the backend is running.");
+    } finally {
+      setIsAssessing(false);
     }
   }
 
@@ -133,10 +183,35 @@ function App() {
                   <h2>Question {index + 1}</h2>
                   <p>{item.question}</p>
                   <span>{item.topic}</span>
+                  <textarea
+                    aria-label={`Answer for question ${index + 1}`}
+                    placeholder="Type your answer here"
+                    value={quizAnswers[item.question] || ""}
+                    onChange={(event) => handleQuizAnswer(item.question, event.target.value)}
+                  />
                 </article>
               ))}
             </div>
+            <button className="secondary-button" type="button" onClick={assessQuiz} disabled={isAssessing}>
+              {isAssessing ? <Loader2 className="spin" size={18} /> : <Sparkles size={18} />}
+              Detect Knowledge Gaps
+            </button>
           </div>
+
+          {assessment && (
+            <div className="gap-report">
+              <p className="section-label">Knowledge Gap Detector</p>
+              <h2>{assessment.message}</h2>
+              <p>
+                Weak topics: <strong>{assessment.weak_topics.join(", ")}</strong>
+              </p>
+              <ol className="revision-plan">
+                {assessment.personal_plan.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </div>
+          )}
 
           <div>
             <p className="section-label">Revision Plan</p>
