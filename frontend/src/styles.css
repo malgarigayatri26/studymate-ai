@@ -205,6 +205,53 @@ button:disabled {
   white-space: pre-wrap;
 }
 
+.card-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.study-card,
+.quiz-item {
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.study-card h2,
+.quiz-item h2 {
+  color: #17202a;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.study-card p,
+.quiz-item p {
+  margin: 0;
+}
+
+.quiz-list {
+  display: grid;
+  gap: 12px;
+}
+
+.quiz-item span {
+  background: #eef7f6;
+  border-radius: 999px;
+  color: #197278;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 12px;
+  padding: 6px 10px;
+}
+
+.revision-plan {
+  margin: 0;
+  padding-left: 22px;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

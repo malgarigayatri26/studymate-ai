@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.pdf_reader import extract_pdf_text
+from app.study_generator import generate_study_material
 
 app = FastAPI(title="StudyMate AI API")
 
@@ -33,19 +34,16 @@ async def upload_lecture(file: UploadFile = File(...)):
             "Scanned image PDFs need OCR, which we will add later."
         )
 
+    study_material = generate_study_material(extracted_text)
+
     return {
         "file_name": file.filename,
         "content_type": file.content_type,
         "extracted_text": extracted_text,
-        "notes": [
-            "PDF extraction is now connected.",
-            "The backend can read text-based PDF lecture files.",
-            "Next, we will send this extracted text to AI for real notes.",
-        ],
-        "summary": "PDF text extraction is ready for text-based lecture files.",
-        "key_points": [
-            "Frontend can send a file.",
-            "Backend can receive and read a PDF.",
-            "The extracted text can now become AI notes.",
-        ],
+        "notes": study_material["key_points"],
+        "summary": study_material["summary"],
+        "key_points": study_material["key_points"],
+        "flashcards": study_material["flashcards"],
+        "quiz": study_material["quiz"],
+        "revision_plan": study_material["revision_plan"],
     }

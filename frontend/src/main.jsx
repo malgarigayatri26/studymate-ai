@@ -112,6 +112,40 @@ function App() {
               ))}
             </ul>
           </div>
+
+          <div>
+            <p className="section-label">Flashcards</p>
+            <div className="card-grid">
+              {result.flashcards.map((card) => (
+                <article className="study-card" key={card.front}>
+                  <h2>{card.front}</h2>
+                  <p>{card.back}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="section-label">Quiz</p>
+            <div className="quiz-list">
+              {result.quiz.map((item, index) => (
+                <article className="quiz-item" key={item.question}>
+                  <h2>Question {index + 1}</h2>
+                  <p>{item.question}</p>
+                  <span>{item.topic}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="section-label">Revision Plan</p>
+            <ol className="revision-plan">
+              {result.revision_plan.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+          </div>
         </section>
       )}
     </main>
