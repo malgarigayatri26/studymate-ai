@@ -56,7 +56,8 @@ async def upload_lecture(file: UploadFile = File(...)):
         try:
             study_material = generate_ai_study_material(extracted_text)
             generator = "gemini"
-        except Exception:
+        except Exception as error:
+            print(f"Gemini generation failed: {error}")
             study_material = generate_study_material(extracted_text)
             generator = "offline_fallback"
     else:
