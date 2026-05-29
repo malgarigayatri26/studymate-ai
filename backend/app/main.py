@@ -36,10 +36,20 @@ def root():
     return {"message": "StudyMate AI backend is running"}
 
 
+@app.get("/api/health")
+def health():
+    return {
+        "message": "StudyMate AI backend is running",
+        "gemini_configured": can_use_gemini(),
+        "gemini_model": os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+    }
+
+
 @app.post("/api/lectures/upload")
 async def upload_lecture(file: UploadFile = File(...)):
     file_bytes = await file.read()
     extracted_text = ""
+    generator_error = ""
 
     if file.content_type == "application/pdf" or file.filename.lower().endswith(".pdf"):
         extracted_text = extract_pdf_text(file_bytes)
@@ -57,6 +67,7 @@ async def upload_lecture(file: UploadFile = File(...)):
             study_material = generate_ai_study_material(extracted_text)
             generator = "gemini"
         except Exception as error:
+            generator_error = str(error)
             print(f"Gemini generation failed: {error}")
             study_material = generate_study_material(extracted_text)
             generator = "offline_fallback"
@@ -67,6 +78,7 @@ async def upload_lecture(file: UploadFile = File(...)):
         "file_name": file.filename,
         "content_type": file.content_type,
         "generator": generator,
+        "generator_error": generator_error,
         "extracted_text": extracted_text,
         "notes": study_material["key_points"],
         "summary": study_material["summary"],

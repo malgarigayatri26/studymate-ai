@@ -207,6 +207,17 @@ button:disabled {
   padding: 8px 12px;
 }
 
+.ai-warning {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  color: #9a3412;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+  padding: 12px;
+}
+
 .extracted-text {
   background: #f7f9fc;
   border: 1px solid #dde3ea;

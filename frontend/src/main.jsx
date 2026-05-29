@@ -139,6 +139,12 @@ function App() {
             Generator: {result.generator === "gemini" ? "Gemini AI" : "Offline fallback"}
           </div>
 
+          {result.generator_error && (
+            <div className="ai-warning">
+              Gemini error: {result.generator_error}
+            </div>
+          )}
+
           <div>
             <p className="section-label">Extracted Text</p>
             <pre className="extracted-text">{result.extracted_text}</pre>
