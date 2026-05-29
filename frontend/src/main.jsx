@@ -5,6 +5,18 @@ import "./styles.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
+function getGeneratorLabel(generator) {
+  if (generator === "gemini") {
+    return "Gemini AI";
+  }
+
+  if (generator === "groq") {
+    return "Groq AI";
+  }
+
+  return "Offline fallback";
+}
+
 function App() {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
@@ -136,7 +148,7 @@ function App() {
       {result && (
         <section className="results">
           <div className="generator-pill">
-            Generator: {result.generator === "gemini" ? "Gemini AI" : "Offline fallback"}
+            Generator: {getGeneratorLabel(result.generator)}
           </div>
 
           {result.generator_error && (

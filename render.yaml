@@ -10,3 +10,5 @@ services:
         value: https://your-vercel-frontend-url.vercel.app
       - key: GEMINI_MODEL
         value: gemini-2.0-flash
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile

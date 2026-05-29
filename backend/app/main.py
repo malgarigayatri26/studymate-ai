@@ -4,7 +4,12 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from app.ai_generator import can_use_gemini, generate_ai_study_material
+from app.ai_generator import (
+    can_use_gemini,
+    can_use_groq,
+    generate_ai_study_material,
+    generate_groq_study_material,
+)
 from app.pdf_reader import extract_pdf_text
 from app.study_generator import generate_study_material
 
@@ -42,6 +47,8 @@ def health():
         "message": "StudyMate AI backend is running",
         "gemini_configured": can_use_gemini(),
         "gemini_model": os.getenv("GEMINI_MODEL", "gemini-2.0-flash"),
+        "groq_configured": can_use_groq(),
+        "groq_model": os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
     }
 
 
@@ -62,7 +69,16 @@ async def upload_lecture(file: UploadFile = File(...)):
 
     generator = "offline"
 
-    if can_use_gemini():
+    if can_use_groq():
+        try:
+            study_material = generate_groq_study_material(extracted_text)
+            generator = "groq"
+        except Exception as error:
+            generator_error = str(error)
+            print(f"Groq generation failed: {error}")
+            study_material = generate_study_material(extracted_text)
+            generator = "offline_fallback"
+    elif can_use_gemini():
         try:
             study_material = generate_ai_study_material(extracted_text)
             generator = "gemini"

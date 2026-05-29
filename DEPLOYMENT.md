@@ -32,6 +32,13 @@ GEMINI_API_KEY=your-gemini-api-key
 GEMINI_MODEL=gemini-2.0-flash
 ```
 
+If Gemini denies project access, use Groq instead:
+
+```text
+GROQ_API_KEY=your-groq-api-key
+GROQ_MODEL=llama-3.3-70b-versatile
+```
+
 Render will give you a backend URL like:
 
 ```text
@@ -96,3 +103,4 @@ FRONTEND_URL=https://your-final-domain.com
 ```
 
 Never commit `GEMINI_API_KEY` to GitHub. Add it only inside Render environment variables.
+Never commit `GROQ_API_KEY` to GitHub. Add it only inside Render environment variables.
