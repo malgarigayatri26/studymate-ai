@@ -94,3 +94,11 @@ Deployment steps are in:
 ```text
 DEPLOYMENT.md
 ```
+
+## Database
+
+Supabase table and security policies are in:
+
+```text
+supabase/schema.sql
+```

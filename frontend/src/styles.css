@@ -31,6 +31,22 @@ textarea {
   max-width: 1100px;
 }
 
+.top-actions {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.user-email {
+  color: #52616f;
+  font-size: 14px;
+  font-weight: 800;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .brand {
   align-items: center;
   display: flex;
@@ -164,6 +180,21 @@ button {
   padding: 14px 18px;
 }
 
+.icon-button {
+  aspect-ratio: 1;
+  border: 1px solid #cfd8e3;
+  background: #ffffff;
+  color: #197278;
+  margin: 0;
+  min-height: 40px;
+  padding: 0;
+  width: 40px;
+}
+
+.icon-button.danger {
+  color: #b42318;
+}
+
 button:disabled {
   cursor: wait;
   opacity: 0.72;
@@ -183,6 +214,76 @@ button:disabled {
   margin: 34px auto 0;
   max-width: 1100px;
   padding: 28px;
+}
+
+.auth-strip,
+.notice,
+.dashboard {
+  margin: 0 auto 24px;
+  max-width: 1100px;
+}
+
+.auth-form,
+.auth-message,
+.notice,
+.dashboard {
+  background: #ffffff;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  box-shadow: 0 14px 40px rgba(16, 36, 46, 0.06);
+}
+
+.auth-form {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto 1fr 1fr auto;
+  padding: 16px;
+}
+
+.auth-form input {
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.auth-form button {
+  margin: 0;
+  min-height: 44px;
+}
+
+.auth-tabs {
+  background: #eef7f6;
+  border-radius: 8px;
+  display: flex;
+  padding: 4px;
+}
+
+.tab {
+  background: transparent;
+  color: #52616f;
+  min-height: 36px;
+  padding: 8px 12px;
+}
+
+.tab.active {
+  background: #197278;
+  color: #ffffff;
+}
+
+.auth-message,
+.notice {
+  color: #2d3b45;
+  font-weight: 800;
+  padding: 16px;
+}
+
+.error-notice {
+  background: #fff7f7;
+  border-color: #fecaca;
+  color: #b42318;
 }
 
 .results p,
@@ -305,6 +406,50 @@ textarea {
   padding-left: 22px;
 }
 
+.dashboard {
+  display: grid;
+  gap: 18px;
+  margin-top: 34px;
+  padding: 28px;
+}
+
+.dashboard-header h2,
+.saved-note h3 {
+  margin: 0;
+}
+
+.empty-state {
+  color: #52616f;
+  margin: 0;
+}
+
+.saved-notes {
+  display: grid;
+  gap: 12px;
+}
+
+.saved-note {
+  align-items: start;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr auto;
+  padding: 16px;
+}
+
+.saved-note p {
+  color: #52616f;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+
+.saved-note span {
+  color: #768493;
+  font-size: 13px;
+  font-weight: 800;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -331,5 +476,17 @@ textarea {
 
   h1 {
     font-size: 38px;
+  }
+
+  .auth-form {
+    grid-template-columns: 1fr;
+  }
+
+  .top-actions {
+    gap: 8px;
+  }
+
+  .user-email {
+    display: none;
   }
 }

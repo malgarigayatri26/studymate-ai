@@ -94,6 +94,41 @@ Value: cname.vercel-dns.com
 
 After DNS updates, your site can take a few minutes to a few hours to work.
 
+## 4. Enable Supabase Login And Saved Notes
+
+In Supabase:
+
+1. Open your project.
+2. Go to SQL Editor.
+3. Paste and run:
+
+```text
+supabase/schema.sql
+```
+
+4. Go to Project Settings.
+5. Go to API.
+6. Copy:
+
+```text
+Project URL
+anon public key
+```
+
+In Vercel:
+
+1. Open your frontend project.
+2. Go to Settings.
+3. Go to Environment Variables.
+4. Add:
+
+```text
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-public-key
+```
+
+5. Redeploy the frontend.
+
 ## Important
 
 After Vercel gives the final frontend URL, update the Render environment variable:
